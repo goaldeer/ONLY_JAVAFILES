@@ -51,7 +51,6 @@ public class PostDAO {
         }
         return posts;
     }
-
     public static PostBean getPostById(int postId) throws SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;

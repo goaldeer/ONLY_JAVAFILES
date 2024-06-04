@@ -13,14 +13,14 @@ if(flag != null) {
 }
 %>
 <head>
-    <title>Login</title>
+    <title>로그인</title>
 </head>
 <body>
-    <h2>Login</h2>
+    <h2>로그인</h2>
     <form action="login" method="post">
         <label>ID:</label><input type="text" name="userId" required><br>
         <label>Password:</label><input type="password" name="userPassword" required><br>
-        <input type="submit" value="Login">
+        <input type="submit" value="로그인">
     </form>
     <a href="register.jsp">Register</a>
 </body>

@@ -5,37 +5,96 @@
 <%@ page import="beans.PostBean" %>
 <%@ page import="dao.PostDAO" %>
 <%
-    String userId = (String) session.getAttribute("userId");
+
+	String userId = request.getParameter("userId");
+	if (userId == null) {
+		userId = (String) session.getAttribute("userId");
+	}
+	
     if (userId == null) {
         response.sendRedirect("login.jsp");
         return;
     }
+    
     UserBean user = UserDAO.getUserById(userId);
     List<PostBean> posts = PostDAO.getAllPosts(); // For simplicity, fetch all posts
+	// posts.forEach(st -> System.out.println("arrData : " + st));
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Profile</title>
+    <title>나의 프로필</title>
 </head>
+
+
+<style>
+        table {
+            width: 90%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .post-id, .post-date {
+            width: 5%;
+            white-space: nowrap;
+        }
+        .post-title {
+            width: 70%;
+        }
+        .post-author {
+            width: 20%;
+        }
+    </style>
+    
+    
 <body>
-    <h2>Profile</h2>
-    <p>Name: <%= user.getUserName() %></p>
-    <p>Address: <%= user.getUserAddress() %></p>
-    <h3>Posts</h3>
+    <fieldset>
+    <h2>프로필</h2>
+    <p>유저 이름 : <%= user.getUserName() %></p>
+    <p>주소  : <%= user.getUserAddress() %></p>
+    </fieldset><br>
+    
+    <fieldset width=90%>
+            	<legend>나의 게시글</legend>
+            	<br>
+            	<table border="1", align='center'>
+                <tr>
+                    <th width=7%>ID</th>
+                    <th>제목</th>
+                    <th width=15%>작성자</th>
+                    <th width=13%>작성일</th>
+                </tr>
+                
     <%
+    	request.setCharacterEncoding("utf-8");
         if (posts != null) {
             for (PostBean post : posts) {
                 if (post.getPostUser().equals(userId)) {
-                    out.println("<div>");
-                    out.println("<h3>" + post.getPostName() + "</h3>");
-                    out.println("<p>" + post.getPostContent() + "</p>");
-                    out.println("<p>Date: " + post.getPostTime() + "</p>");
-                    out.println("</div>");
+                	%>
+                <tr>
+                    <td onclick="location.href='postView.jsp?postId=<%= post.getPostId() %>'" style="cursor:pointer;"><%= post.getPostId() %></td>
+                    <td onclick="location.href='postView.jsp?postId=<%= post.getPostId() %>'" style="cursor:pointer;"><%= post.getPostName() %></td>
+                    <td onclick="location.href='profile.jsp?userId=<%= post.getPostUser() %>'" style="cursor:pointer;"><%= post.getPostUser() %></td>
+                    <td><%= post.getPostTime() %></td>
+                
+                
+            		<%
                 }
             }
         }
     %>
+            	</tr>
+                </table>
+               <br>
+	</fieldset>
     <a href="main.jsp">Back to Main</a>
 </body>
 </html>
