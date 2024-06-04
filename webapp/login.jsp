@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<%
+String flag = request.getParameter("error");
+
+if(flag != null) {
+	if(flag.equals("1")) {
+		%>
+		<script> alert("로그인 정보를 확인해 주세요."); </script>
+		<%
+	}
+}
+%>
 <head>
     <title>Login</title>
 </head>

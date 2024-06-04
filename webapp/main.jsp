@@ -17,6 +17,7 @@
     <h2>Posts</h2>
     <a href="profile.jsp">Profile</a> | <a href="logout.jsp">Logout</a>
     <form action="post" method="post" enctype="multipart/form-data">
+    
         <label>Title:</label><input type="text" name="postName" required><br>
         <label>Content:</label><textarea name="postContent" required></textarea><br>
         <label>Photo:</label><input type="file" name="postPhoto"><br>

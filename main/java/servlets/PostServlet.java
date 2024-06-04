@@ -12,6 +12,7 @@ import java.util.List;
 
 @WebServlet("/post")
 public class PostServlet extends HttpServlet {
+	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String postName = request.getParameter("postName");
         String postContent = request.getParameter("postContent");
