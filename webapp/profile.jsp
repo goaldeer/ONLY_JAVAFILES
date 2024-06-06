@@ -71,6 +71,7 @@
                     <th>제목</th>
                     <th width=15%>작성자</th>
                     <th width=13%>작성일</th>
+                    <th width=5%>삭제</th>
                 </tr>
                 
     <%
@@ -84,6 +85,12 @@
                     <td onclick="location.href='postView.jsp?postId=<%= post.getPostId() %>'" style="cursor:pointer;"><%= post.getPostName() %></td>
                     <td onclick="location.href='profile.jsp?userId=<%= post.getPostUser() %>'" style="cursor:pointer;"><%= post.getPostUser() %></td>
                     <td><%= post.getPostTime() %></td>
+                    <td>
+            			<form action="deletePost.jsp" method="post">
+            			<input type="hidden" name="postId" value="<%= post.getPostId() %>" />
+        				<input type="submit" value="삭제">
+    					</form>
+    				</td>
                 
                 
             		<%

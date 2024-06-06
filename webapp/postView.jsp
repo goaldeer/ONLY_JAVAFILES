@@ -67,11 +67,18 @@
             </tr>
             
             <tr>
+            	<td align="center" colspan=4> 
+            	
+            		<img class="card-img-bottom d-block" src="${pageContext.request.contextPath}/assets/${post.postId}" alt="">
+            	
+            	</td>
+            </tr>
+            
+            <tr>
             	<td align="center" colspan=4> <%= post.getPostContent().replaceAll("\n", "<br/>") %> </td>
             </tr>
             
             <%
-            System.out.println(userId + " " + post.getPostUser());
             if (userId.equals(post.getPostUser())) {
             %>
             
@@ -89,6 +96,7 @@
 		}
 	%>
                 </table>
+               <br>
                <br>
 	</fieldset>
                 

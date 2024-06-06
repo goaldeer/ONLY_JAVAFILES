@@ -46,15 +46,17 @@
     <h2>게시판</h2>
     <a href="profile.jsp">내 프로필</a> | <a href="logout.jsp">로그아웃</a><br><br>
     
-    <%-- <form action="post" method="post" enctype="multipart/form-data"> --%>
+    <%--  --%>
     <fieldset>
     <legend>게시글 작성</legend>
-    <form action="post" method="post">
-        <label>Title:</label><input type="text" name="postName" required><br>
-        <label>Content:</label><textarea name="postContent" required rows="10" cols="30"></textarea><br>
-        <%-- <label>Photo:</label><input type="file" name="postPhoto"><br> --%>
-        <input type="submit" value="Post">
+    <form name="fileForm" action="post" method="post" enctype="multipart/form-data">
+        <label>제목 : </label><input type="text" name="postName" required><br>
+        <label>내용 : </label><textarea name="postContent" required rows="10" cols="30"></textarea><br>
+        <label>사진 : </label><input type="file" name="postPhoto"><br>
+        <input type="submit" value="작성">
+        
     </form>
+	
     </fieldset>
     
     <br>
