@@ -11,6 +11,34 @@
 %>
 <!DOCTYPE html>
 <html>
+
+<%
+String flag = request.getParameter("error");
+
+if(flag != null) {
+	if(flag.equals("0")) {
+		%>
+		<script> alert("jpeg, jpg, png 파일만 업로드 가능합니다."); </script>
+		<%
+	}
+}
+%>
+<script>
+        const ALLOWED_EXTENSIONS = ['jpeg', 'jpg', 'png'];
+
+        document.getElementById('fileForm').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                if (!ALLOWED_EXTENSIONS.includes(fileExtension)) {
+                    alert('jpeg, jpg, png 파일만 업로드가 가능합니다.');
+                    event.target.value = ''; // 선택한 파일을 초기화
+                }
+            }
+        });
+</script>
 <head>
     <title>Posts</title>
 </head>

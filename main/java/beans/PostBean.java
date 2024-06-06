@@ -9,8 +9,15 @@ public class PostBean {
     private String postUser;
     private String postContent;
     private byte[] postPhoto;
+    private String postPhotoExtension;
     
-    public String getPostName() {
+    public String getPostPhotoExtension() {
+		return postPhotoExtension;
+	}
+	public void setPostPhotoExtension(String postPhotoExtension) {
+		this.postPhotoExtension = postPhotoExtension;
+	}
+	public String getPostName() {
 		return postName;
 	}
 	public void setPostName(String postName) {

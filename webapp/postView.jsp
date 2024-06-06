@@ -67,15 +67,11 @@
             </tr>
             
             <tr>
-            	<td align="center" colspan=4> 
-            	
-            		<img class="card-img-bottom d-block" src="${pageContext.request.contextPath}/assets/${post.postId}" alt="">
-            	
-            	</td>
-            </tr>
             
-            <tr>
-            	<td align="center" colspan=4> <%= post.getPostContent().replaceAll("\n", "<br/>") %> </td>
+            	<td align="center" colspan=4>
+            	<img class="card-img-bottom d-block" src="<%= request.getContextPath() %>/displayImage?postId=<%= post.getPostId() %>" alt=""><br>
+            	<%= post.getPostContent().replaceAll("\n", "<br/>") %> 
+            	</td>
             </tr>
             
             <%

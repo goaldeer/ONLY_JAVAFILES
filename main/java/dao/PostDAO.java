@@ -12,12 +12,13 @@ public class PostDAO {
         PreparedStatement pstmt = null;
         try {
             conn = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO posts (postName, postTime, postId, postUser, postContent, postPhoto) VALUES (?, SYSDATE, post_seq.NEXTVAL, ?, ?, ?)";
+            String sql = "INSERT INTO posts (postName, postTime, postId, postUser, postContent, postPhoto, postPhotoExtension) VALUES (?, SYSDATE, post_seq.NEXTVAL, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, post.getPostName());
             pstmt.setString(2, post.getPostUser());
             pstmt.setString(3, post.getPostContent());
             pstmt.setBytes(4, post.getPostPhoto());
+            pstmt.setString(5, post.getPostPhotoExtension());
             pstmt.executeUpdate();
         } finally {
             if (pstmt != null) pstmt.close();
@@ -42,6 +43,7 @@ public class PostDAO {
                 post.setPostUser(rs.getString("postUser"));
                 post.setPostContent(rs.getString("postContent"));
                 post.setPostPhoto(rs.getBytes("postPhoto"));
+                post.setPostPhotoExtension(rs.getString("postPhotoExtension"));
                 posts.add(post);
             }
         } finally {
@@ -70,6 +72,7 @@ public class PostDAO {
                 post.setPostUser(rs.getString("postUser"));
                 post.setPostContent(rs.getString("postContent"));
                 post.setPostPhoto(rs.getBytes("postPhoto"));
+                post.setPostPhotoExtension(rs.getString("postPhotoExtension"));
             }
         } finally {
             if (rs != null) rs.close();

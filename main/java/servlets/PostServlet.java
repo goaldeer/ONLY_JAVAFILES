@@ -16,6 +16,8 @@ import com.oreilly.servlet.MultipartRequest;
 
 @WebServlet("/post")
 public class PostServlet extends HttpServlet {
+	private static final String[] ALLOWED_EXTENSIONS = { "jpeg", "jpg", "png" };
+	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding("utf-8");
     	
@@ -35,32 +37,69 @@ public class PostServlet extends HttpServlet {
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
+        
         MultipartRequest multi = new MultipartRequest(request, uploadPath, 5 * 1024 * 1024, "utf-8", new DefaultFileRenamePolicy());
 	
 		String postName = multi.getParameter("postName");
 		String postContent = multi.getParameter("postContent");
-		
-		Enumeration files = multi.getFileNames();
-		
+
+        Enumeration files = multi.getFileNames();
+        String fileElementName = (String) files.nextElement();
+        String uploadedFileName = multi.getFilesystemName(fileElementName);
         
         PostBean post = new PostBean();
         post.setPostName(postName);
         post.setPostContent(postContent);
         post.setPostUser(postUser);
         //post.setPostPhoto(postPhoto);
+        
+        
+        
 
         try {
-            //String postPhoto = String.valueOf(post.getPostId());
-            //String postPhotoName = multi.getFilesystemName(postPhoto);
-            PostDAO.addPost(post);
-            int postId = post.getPostId();
-            String postPhoto = String.valueOf(postId);
-            String uploadedFileName = multi.getFilesystemName(String.valueOf(post.getPostId()));
+            /*PostDAO.addPost(post);
 
-            if (uploadedFileName != null) {
+            List<PostBean> lastPost = PostDAO.getAllPosts();
+
+            if (lastPost.isEmpty()) {
+                throw new ServletException("No posts found after insertion");
+            }
+
+            int postId = lastPost.get(0).getPostId();
+
+            if (uploadedFileName != null && !uploadedFileName.isEmpty()) {
+                String extension = uploadedFileName.substring(uploadedFileName.lastIndexOf(".") + 1).toLowerCase();
+                String postPhoto = postId + "." + extension;
+
                 File uploadedFile = new File(uploadPath, uploadedFileName);
                 File newFile = new File(uploadPath, postPhoto);
                 uploadedFile.renameTo(newFile);
+
+            }*/
+        	
+        	if (uploadedFileName != null && !uploadedFileName.isEmpty()) {
+                File uploadedFile = new File(uploadPath, uploadedFileName);
+                String extension = uploadedFileName.substring(uploadedFileName.lastIndexOf(".") + 1).toLowerCase();
+
+                if (!extension.equals("jpg") && !extension.equals("jpeg") && !extension.equals("png")) {
+                    throw new ServletException("Invalid file extension");
+                }
+
+                // 파일을 바이트 배열로 읽기
+                byte[] fileData = null;
+                try (InputStream inputStream = new FileInputStream(uploadedFile)) {
+                    fileData = new byte[(int) uploadedFile.length()];
+                    inputStream.read(fileData);
+                }
+
+                post.setPostPhoto(fileData); // 파일 데이터를 설정
+                post.setPostPhotoExtension(extension); // 확장자를 설정
+
+                PostDAO.addPost(post); // 데이터베이스에 저장
+
+                uploadedFile.delete(); // 임시 파일 삭제
+            } else {
+                PostDAO.addPost(post); // 파일이 없을 경우 기본 정보만 저장
             }
             
             response.sendRedirect("main.jsp");
@@ -69,6 +108,7 @@ public class PostServlet extends HttpServlet {
         }
     }
 
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<PostBean> posts = PostDAO.getAllPosts();
