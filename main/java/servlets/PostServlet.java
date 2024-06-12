@@ -20,18 +20,10 @@ public class PostServlet extends HttpServlet {
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding("utf-8");
-    	
-        //String postName = request.getParameter("postName");
-        //String postContent = request.getParameter("postContent");
+
         String postUser = (String) request.getSession().getAttribute("userId");
         
         
-        /*Part filePart = request.getPart("postPhoto");
-        byte[] postPhoto = null;
-        if (filePart != null) {
-            postPhoto = new byte[(int) filePart.getSize()];
-            filePart.getInputStream().read(postPhoto);
-        }*/
         String uploadPath = getServletContext().getRealPath("/assets");
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -51,31 +43,9 @@ public class PostServlet extends HttpServlet {
         post.setPostName(postName);
         post.setPostContent(postContent);
         post.setPostUser(postUser);
-        //post.setPostPhoto(postPhoto);
-        
-        
         
 
         try {
-            /*PostDAO.addPost(post);
-
-            List<PostBean> lastPost = PostDAO.getAllPosts();
-
-            if (lastPost.isEmpty()) {
-                throw new ServletException("No posts found after insertion");
-            }
-
-            int postId = lastPost.get(0).getPostId();
-
-            if (uploadedFileName != null && !uploadedFileName.isEmpty()) {
-                String extension = uploadedFileName.substring(uploadedFileName.lastIndexOf(".") + 1).toLowerCase();
-                String postPhoto = postId + "." + extension;
-
-                File uploadedFile = new File(uploadPath, uploadedFileName);
-                File newFile = new File(uploadPath, postPhoto);
-                uploadedFile.renameTo(newFile);
-
-            }*/
         	
         	if (uploadedFileName != null && !uploadedFileName.isEmpty()) {
                 File uploadedFile = new File(uploadPath, uploadedFileName);

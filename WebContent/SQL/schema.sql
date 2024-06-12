@@ -13,7 +13,17 @@ CREATE TABLE posts (
     postId INT PRIMARY KEY,
     postUser VARCHAR2(50) REFERENCES users(userId),
     postContent VARCHAR2(4000),
-    postPhoto BLOB
+    postPhoto BLOB,
+    postPhotoExtension VARCHAR2(5)
 );
 
-CREATE SEQUENCE post_seq START WITH 1 INCREMENT BY 1 NOCACHE;
+CREATE TABLE comments (
+    commentid INT PRIMARY KEY,
+    postId INT REFERENCES posts(postId) ON DELETE CASCADE,
+    author VARCHAR2(50) REFERENCES users(userId),
+    content VARCHAR2(4000),
+    createdAt DATE DEFAULT SYSDATE
+);
+
+CREATE SEQUENCE posts_seq START WITH 1 INCREMENT BY 1 NOCACHE;
+CREATE SEQUENCE comments_seq START WITH 1 INCREMENT BY 1 NOCACHE;

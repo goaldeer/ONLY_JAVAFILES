@@ -2,20 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>회원가입</title>
 </head>
 <body>
-    <h2>Register</h2>
+    <h2>이용자 회원가입</h2>
     <form action="register" method="post">
-        <label>User Type:</label>
-        <select name="userType">
-            <option value="owner">Owner</option>
-            <option value="user">User</option>
-        </select><br>
-        <label>Name:</label><input type="text" name="userName" required><br>
+        <input type="hidden" name="userType" value="user" /><br>
+        <label>이름:</label><input type="text" name="userName" required><br>
         <label>ID:</label><input type="text" name="userId" required><br>
         <label>Password:</label><input type="password" name="userPassword" required><br>
-        <label>Address:</label><input type="text" name="userAddress"><br>
+        <input type="hidden" name="userAddress" value="user" />
         <input type="submit" value="Register">
     </form>
 </body>

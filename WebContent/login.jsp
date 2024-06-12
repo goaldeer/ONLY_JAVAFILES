@@ -18,8 +18,8 @@ if(flag != null) {
 <body>
     <h2>로그인</h2>
     <form action="login" method="post">
-        <label>ID:</label><input type="text" name="userId" required><br>
-        <label>Password:</label><input type="password" name="userPassword" required><br>
+        <label>아이디:</label><input type="text" name="userId" required><br>
+        <label>비밀번호:</label><input type="password" name="userPassword" required><br>
         <input type="submit" value="로그인">
     </form>
     <a href="register.jsp">Register</a>

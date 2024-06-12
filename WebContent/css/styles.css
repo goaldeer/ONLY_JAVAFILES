@@ -1,0 +1,98 @@
+@import url('//fonts.googleapis.com/earlyaccess/notosanskr.css');
+
+@font-face {
+    font-family: 'PyeongChangPeace-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+h1 {
+    font-family: 'PyeongChangPeace-Bold';
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-outline-primary, .btn-outline-danger {
+    margin-right: 5px;
+}
+
+.table th {
+    background-color: #343a40;
+    color: white;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table th.id, .table td.id {
+    width: 5%;
+    white-space: nowrap;
+}
+
+.table th.title, .table td.title {
+    width: 50%;
+}
+
+.table th.author, .table td.author {
+    width: 20%;
+}
+
+.table th.date, .table td.date {
+    width: 15%;
+}
+
+.comment-section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+}
+
+.comment {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+.comment strong {
+    color: #333;
+}
+
+.comment em {
+    color: #666;
+}
+
+.profile-info p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
