@@ -29,6 +29,7 @@
 </head>
 <body>
     <div class="container">
+    <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
         <h2>프로필</h2>
         <div class="profile-info">
             <p>유저 이름 : <%= user.getUserName() %></p>

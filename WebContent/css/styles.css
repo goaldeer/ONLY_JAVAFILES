@@ -96,3 +96,55 @@ h1 {
     font-size: 1.2em;
     margin: 10px 0;
 }
+
+.auth-container {
+    background-color: white;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+}
+
+.auth-container h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+.auth-container h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+.auth-container label {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="password"],
+.auth-container input[type="submit"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.auth-container input[type="submit"] {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.auth-container input[type="submit"]:hover {
+    background-color: #0056b3;
+}

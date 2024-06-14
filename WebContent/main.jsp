@@ -5,8 +5,7 @@
 <%
     String userId = (String) session.getAttribute("userId");
     if (userId == null) {
-        //response.sendRedirect("login.jsp");
-        //return;
+		userId = "-1";
     }
 %>
 <!DOCTYPE html>
@@ -19,13 +18,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>부경대 교외식당</h1>
+        <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
         <div class="text-right mb-3">
+            
+            <% if(userId.equals("-1")) { %>
+            <a href="login.jsp" class="btn btn-outline-primary">로그인</a>
+            <% } else { %>
             <a href="profile.jsp" class="btn btn-outline-primary">내 프로필</a>
             <a href="logout.jsp" class="btn btn-outline-danger">로그아웃</a>
+            <%
+            }
+            %>
         </div>
         
-        <%
+       <% if (userId != "-1") { %>
+       
+       		 <%
         String flag = request.getParameter("error");
         if (flag != null && flag.equals("0")) {
         %>
@@ -59,7 +67,8 @@
                 </form>
             </div>
         </div>
-        
+        <% } %>
+       
         <div class="card">
             <div class="card-header">
                 게시판
