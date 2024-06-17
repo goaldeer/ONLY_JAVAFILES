@@ -11,10 +11,13 @@ import java.sql.SQLException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	request.setCharacterEncoding("UTF-8");
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
 
         try {
+        	System.out.println(userId + " " + userPassword);
+        	
             if (UserDAO.validateUser(userId, userPassword)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", userId);

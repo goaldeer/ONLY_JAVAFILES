@@ -53,6 +53,34 @@ public class UserDAO {
         return user;
     }
 
+    public static UserBean getUserByName(String userName) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        UserBean user = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM users WHERE userName = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userName);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                user = new UserBean();
+                user.setUserType(rs.getString("userType"));
+                user.setUserAddress(rs.getString("userAddress"));
+                user.setUserId(rs.getString("userId"));
+                user.setUserPassword(rs.getString("userPassword"));
+                user.setUserName(rs.getString("userName"));
+                user.setUserProfilePost(rs.getInt("userProfilePost"));
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
+        }
+        return user;
+    }
+    
     public static boolean validateUser(String userId, String userPassword) throws SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;

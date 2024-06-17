@@ -17,12 +17,14 @@
     }
     
     UserBean user = UserDAO.getUserById(userId);
-    List<PostBean> posts = PostDAO.getAllPosts(); // For simplicity, fetch all posts
+    List<PostBean> posts = PostDAO.getAllPosts();
+    String address = user.getUserAddress();
+    
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>나의 프로필</title>
+    <title>쩝쩝박사 : 프로필</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/styles.css">
@@ -30,12 +32,55 @@
 <body>
     <div class="container">
     <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
-        <h2>프로필</h2>
+        <h2>나의 프로필</h2><br>
         <div class="profile-info">
             <p>유저 이름 : <%= user.getUserName() %></p>
             <% if(user.getUserType().equals("owner")) { %>
-            <p>주소 : <%= user.getUserAddress() %></p>
+            <p>주소 : <%= address %></p><br>
+            
+	            <div id="map" style="width:500px;height:400px;"></div>
+				<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=464462342b9bb3ab97ca0ec2e6f70047&libraries=services"></script>
+				<script>
+					var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			    	mapOption = {
+			        	center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+			        	level: 3 // 지도의 확대 레벨
+			    	};  
+
+					// 지도를 생성합니다    
+					var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new kakao.maps.services.Geocoder();
+					
+					// 주소로 좌표를 검색합니다
+					geocoder.addressSearch("<%= address %>", function(result, status) {
+
+			    	// 정상적으로 검색이 완료됐으면 
+			     	if (status === kakao.maps.services.Status.OK) {
+
+			        	var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+			        	// 결과값으로 받은 위치를 마커로 표시합니다
+			        	var marker = new kakao.maps.Marker({
+			            	map: map,
+			            	position: coords
+			        	});
+
+			        	// 인포윈도우로 장소에 대한 설명을 표시합니다
+			        	var infowindow = new kakao.maps.InfoWindow({
+			            	content: '<div style="width:150px;text-align:center;padding:6px 0;">우리가게</div>'
+			       		});
+			        	infowindow.open(map, marker);
+
+			        	// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        	map.setCenter(coords);
+			    	} 
+				});    
+				</script>
+	           
             <% } %>
+            
         </div>
 
         <fieldset class="mb-4">
@@ -46,7 +91,7 @@
                     <th>제목</th>
                     <th width="15%">작성자</th>
                     <th width="13%">작성일</th>
-                    <th>삭제</th>
+                    <th width="10%">삭제</th>
                 </tr>
                 <%
                 if (posts != null) {
@@ -74,7 +119,7 @@
         </fieldset>
         
         <div class="text-center">
-            <a href="main.jsp" class="btn btn-outline-primary">Back to Main</a>
+            <a href="main.jsp" class="btn btn-outline-primary">메인으로 돌아가기</a>
         </div>
     </div>
 </body>

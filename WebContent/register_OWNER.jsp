@@ -38,10 +38,10 @@
             font-size: 1em;
         }
 
-        input[type="submit"] {
+        input[type="submit"], input[type="button"] {
             width: calc(100% - 20px);
             padding: 10px;
-            margin-top: 20px;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
             background-color: #007bff;
@@ -50,16 +50,51 @@
             cursor: pointer;
         }
 
-        input[type="submit"]:hover {
+        input[type="submit"]:hover, input[type="button"]:hover {
             background-color: #0056b3;
         }
     </style>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function openPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById("userAddress").value = data.address;
+                }
+            }).open();
+        }
+
+        function checkUserExists() {
+            var userId = document.getElementById("userId").value;
+            var userName = document.getElementById("userName").value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "CheckUserServlet", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = xhr.responseText;
+                    console.log("Response:", response);
+                    if (response === "ID_EXISTS") {
+                        alert("이미 존재하는 ID 입니다.");
+                    } else if (response === "NAME_EXISTS") {
+                        alert("이미 존재하는 이름 입니다.");
+                    } else if (response === "ID_NAME_EXISTS") {
+                        alert("이미 존재하는 아이디와 이름입니다.");
+                    } else {
+                        document.getElementById("signupForm").submit();
+                    }
+                }
+            };
+            xhr.send("userId=" + encodeURIComponent(userId) + "&userName=" + encodeURIComponent(userName));
+        }
+    </script>
 </head>
 <body>
     <div class="signup-container">
         <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
         <h2>사장님 회원가입</h2>
-        <form action="register" method="post">
+        <form id="signupForm" action="register" method="post">
             <input type="hidden" name="userType" value="owner" />
             <div>
                 <label for="userName">이름</label>
@@ -75,9 +110,10 @@
             </div>
             <div>
                 <label for="userAddress">주소</label>
-                <input type="text" id="userAddress" name="userAddress">
+                <input type="text" id="userAddress" name="userAddress" readonly>
+                <input type="button" id="postcodeButton" value="주소 검색" onclick="openPostcode()">
             </div>
-            <input type="submit" value="가입하기">
+            <input type="button" value="가입하기" onclick="checkUserExists()">
         </form>
     </div>
 </body>

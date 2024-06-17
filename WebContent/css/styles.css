@@ -148,3 +148,26 @@ h1 {
 .auth-container input[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+.pagination {
+    margin-top: 20px;
+}
+
+.page-item .page-link {
+    color: #007bff;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.btn-outline-primary {
+    margin-right: 5px;
+}
+
+.btn-outline-danger {
+    margin-right: 5px;
+}
+
