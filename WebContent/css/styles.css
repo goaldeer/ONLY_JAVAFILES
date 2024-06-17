@@ -171,3 +171,17 @@ h1 {
     margin-right: 5px;
 }
 
+.location-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+}
+
+.location-row p {
+            margin: 0;
+}
+        
+.location-button {
+            margin-left: 20px;
+}
+

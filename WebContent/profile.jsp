@@ -36,9 +36,13 @@
         <div class="profile-info">
             <p>유저 이름 : <%= user.getUserName() %></p>
             <% if(user.getUserType().equals("owner")) { %>
-            <p>주소 : <%= address %></p><br>
-            
-	            <div id="map" style="width:500px;height:400px;"></div>
+            <p>주소 : <%= address %></p>
+            <div class="location-row">
+                    <p><span class="label">상권:</span> <%= user.getUserLocation() %></p>
+                    <a href="changeLocation.jsp" class="btn btn-primary">상권 변경</a>
+            </div><br><br>
+                
+	            <div id="map" style="width:100%;height:400px;"></div><br>
 				<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=464462342b9bb3ab97ca0ec2e6f70047&libraries=services"></script>
 				<script>
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -75,8 +79,19 @@
 
 			        	// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 			        	map.setCenter(coords);
-			    	} 
-				});    
+			    		} 
+					});    
+					
+					function confirmDeletion(event) {
+			            event.preventDefault(); // 기본 링크 클릭 동작을 막음
+			            if (confirm("정말 계정을 삭제하시겠습니까?")) {
+			                // 여기서 AJAX 요청을 보내거나 폼을 제출하여 서버에서 계정을 삭제할 수 있습니다.
+			                // 예시로는 간단히 알림만 표시합니다.
+			                alert("삭제되었습니다.");
+			                // 실제 삭제를 위해 아래 코드를 활성화하세요.
+			                window.location.href = event.target.href;
+			            }
+			        }
 				</script>
 	           
             <% } %>
@@ -115,11 +130,12 @@
                     }
                 }
                 %>
+                
             </table>
         </fieldset>
         
-        <div class="text-center">
-            <a href="main.jsp" class="btn btn-outline-primary">메인으로 돌아가기</a>
+        <div class="text-right">
+                <a href="deleteUser.jsp" class="btn btn-outline-danger" onclick="confirmDeletion(event)">계정 삭제</a>
         </div>
     </div>
 </body>

@@ -10,14 +10,14 @@ public class UserDAO {
         PreparedStatement pstmt = null;
         try {
             conn = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO users (userType, userAddress, userId, userPassword, userName, userProfilePost) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO users (userType, userAddress, userId, userPassword, userName, userLocation) VALUES (?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, user.getUserType());
             pstmt.setString(2, user.getUserAddress());
             pstmt.setString(3, user.getUserId());
             pstmt.setString(4, user.getUserPassword());
             pstmt.setString(5, user.getUserName());
-            pstmt.setInt(6, user.getUserProfilePost());
+            pstmt.setString(6, user.getUserLocation());
             pstmt.executeUpdate();
         } finally {
             if (pstmt != null) pstmt.close();
@@ -43,7 +43,7 @@ public class UserDAO {
                 user.setUserId(rs.getString("userId"));
                 user.setUserPassword(rs.getString("userPassword"));
                 user.setUserName(rs.getString("userName"));
-                user.setUserProfilePost(rs.getInt("userProfilePost"));
+                user.setUserLocation(rs.getString("userLocation"));
             }
         } finally {
             if (rs != null) rs.close();
@@ -53,6 +53,31 @@ public class UserDAO {
         return user;
     }
 
+    public static boolean setUserAddressById(String userId, String userAddress, String userLocation) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        UserBean user = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "UPDATE users SET userAddress = ?, userLocation = ? WHERE userId = ?";
+            
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userAddress);
+            pstmt.setString(2, userLocation);
+            pstmt.setString(3, userId);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+            	return true;
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
+        }
+        return true;
+    }
+    
     public static UserBean getUserByName(String userName) throws SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -71,7 +96,7 @@ public class UserDAO {
                 user.setUserId(rs.getString("userId"));
                 user.setUserPassword(rs.getString("userPassword"));
                 user.setUserName(rs.getString("userName"));
-                user.setUserProfilePost(rs.getInt("userProfilePost"));
+                user.setUserLocation(rs.getString("userLocation"));
             }
         } finally {
             if (rs != null) rs.close();
@@ -102,5 +127,27 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
         return isValid;
+    }
+    
+    public static boolean deleteUserById(String userId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        boolean isDone = false;
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM users WHERE userId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userId);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+            	isDone = true;
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
+        }
+        return isDone;
     }
 }

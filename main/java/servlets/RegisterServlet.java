@@ -18,6 +18,7 @@ public class RegisterServlet extends HttpServlet {
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
         String userName = request.getParameter("userName");
+        String userLocation = request.getParameter("userLocation");
 
         UserBean user = new UserBean();
         user.setUserType(userType);
@@ -25,6 +26,7 @@ public class RegisterServlet extends HttpServlet {
         user.setUserId(userId);
         user.setUserPassword(userPassword);
         user.setUserName(userName);
+        user.setUserLocation(userLocation);
 
         try {
             UserDAO.addUser(user);

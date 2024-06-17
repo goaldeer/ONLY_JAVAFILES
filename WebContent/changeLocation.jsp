@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>사장님 회원가입</title>
+    <title>상권 변경</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/styles.css">
     <style>
         .signup-container {
@@ -66,51 +66,13 @@
                 }
             }).open();
         }
-
-        function checkUserExists() {
-            var userId = document.getElementById("userId").value;
-            var userName = document.getElementById("userName").value;
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "CheckUserServlet", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = xhr.responseText;
-                    console.log("Response:", response);
-                    if (response === "ID_EXISTS") {
-                        alert("이미 존재하는 ID 입니다.");
-                    } else if (response === "NAME_EXISTS") {
-                        alert("이미 존재하는 이름 입니다.");
-                    } else if (response === "ID_NAME_EXISTS") {
-                        alert("이미 존재하는 아이디와 이름입니다.");
-                    } else {
-                        document.getElementById("signupForm").submit();
-                    }
-                }
-            };
-            xhr.send("userId=" + encodeURIComponent(userId) + "&userName=" + encodeURIComponent(userName));
-        }
     </script>
 </head>
 <body>
     <div class="signup-container">
         <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
-        <h2>사장님 회원가입</h2>
-        <form id="signupForm" action="register" method="post">
-            <input type="hidden" name="userType" value="owner" />
-            <div>
-                <label for="userName">이름</label>
-                <input type="text" id="userName" name="userName" required>
-            </div>
-            <div>
-                <label for="userId">ID</label>
-                <input type="text" id="userId" name="userId" required>
-            </div>
-            <div>
-                <label for="userPassword">Password</label>
-                <input type="password" id="userPassword" name="userPassword" required>
-            </div>
+        <h2>상권 변경</h2>
+        <form action="changeLocation" method="post" onsubmit="return validateForm()">
             <div>
                 <label for="userAddress">주소</label>
                 <input type="text" id="userAddress" name="userAddress" readonly required>
@@ -179,8 +141,18 @@
                 });
             }
             
+            function validateForm() {
+                const userAddress = document.getElementById('userAddress').value;
+                const userLocation = document.getElementById('userLocation').value;
+                if (!userAddress || !userLocation) {
+                    alert('주소를 선택해 주세요.');
+                    return false; // 폼 제출 중단
+                }
+                return true; // 폼 제출 진행
+            }
+            
             </script>
-            <input type="button" value="가입하기" onclick="checkUserExists()">
+            <input type="submit" value="변경하기">
         </form>
     </div>
 </body>

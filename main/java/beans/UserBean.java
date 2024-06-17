@@ -6,7 +6,7 @@ public class UserBean {
     private String userId;
     private String userPassword;
     private String userName;
-    private int userProfilePost;
+    private String userLocation;
     
     public String getUserType() {
 		return userType;
@@ -38,11 +38,11 @@ public class UserBean {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public int getUserProfilePost() {
-		return userProfilePost;
+	public String getUserLocation() {
+		return userLocation;
 	}
-	public void setUserProfilePost(int userProfilePost) {
-		this.userProfilePost = userProfilePost;
+	public void setUserLocation(String userLocation) {
+		this.userLocation = userLocation;
 	}
 	
 
