@@ -33,9 +33,11 @@ public class ChangeLocationServlet extends HttpServlet {
             	UserDAO.setUserAddressById(userId, userAddress, userLocation);
             	
             	if (user.getUserType().equals("user")) {
+            		request.getSession().setAttribute("userLocation", request.getParameter("userLocation"));
             		response.sendRedirect("main.jsp");
             		return;
             	}
+            	request.getSession().setAttribute("userLocation", request.getParameter("userLocation"));
             	response.sendRedirect("profile.jsp");
                 
             } catch (SQLException e) {
