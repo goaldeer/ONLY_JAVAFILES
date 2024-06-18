@@ -6,12 +6,16 @@
 <%@ page import="dao.UserDAO" %>
 <%
     String userId = (String) session.getAttribute("userId");
+	String userLocation = (String) session.getAttribute("userLocation");
 
     int currentPage = 1; // 변수 이름을 변경
     int pageSize = 15;
     int totalPages = 0;
     
-    String userLocation = "국립부경대학교 대연캠퍼스";
+    if (userLocation == null) {
+
+        userLocation = "국립부경대학교 대연캠퍼스";
+    }
     
     if (session.getAttribute("userLocation") == null) {
         
