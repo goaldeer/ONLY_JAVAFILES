@@ -17,6 +17,13 @@ public class ChangeLocationServlet extends HttpServlet {
     	
         String userId = (String) request.getSession().getAttribute("userId");
         
+        UserBean user = null;
+        
+        try {
+        	user = UserDAO.getUserById(userId);
+        	
+        } catch (Exception e) {}
+        
         if (userId != null) {
         	String userAddress = request.getParameter("userAddress");
             String userLocation = request.getParameter("userLocation");
@@ -24,6 +31,11 @@ public class ChangeLocationServlet extends HttpServlet {
             try {
 
             	UserDAO.setUserAddressById(userId, userAddress, userLocation);
+            	
+            	if (user.getUserType().equals("user")) {
+            		response.sendRedirect("main.jsp");
+            		return;
+            	}
             	response.sendRedirect("profile.jsp");
                 
             } catch (SQLException e) {

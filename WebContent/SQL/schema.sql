@@ -7,7 +7,6 @@ CREATE TABLE users (
     userLocation VARCHAR2(50) DEFAULT NULL
 );
 
-/* alter table users drop column userProfilePost; alter table users add userLocation VARCHAR2(50) default null; */
 
 CREATE TABLE posts (
     postName VARCHAR2(255),

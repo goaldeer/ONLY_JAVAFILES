@@ -24,7 +24,11 @@ public class LoginServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        String userLocation = user.getUserLocation();
+        String userLocation = null;
+        
+        if (user.getUserType().equals("owner")) {
+        	userLocation = user.getUserLocation();
+        }
         
         try {
         	

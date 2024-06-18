@@ -7,7 +7,18 @@
 <%
     String userId = (String) session.getAttribute("userId");
 	String userLocation = (String) session.getAttribute("userLocation");
-
+	
+	String userType = null;
+	
+	if (userId != null) {
+		try {
+			UserBean user = UserDAO.getUserById(userId);
+			userType = user.getUserType();
+			
+		} catch (Exception e) {}
+	}
+	
+	
     int currentPage = 1; // 변수 이름을 변경
     int pageSize = 15;
     int totalPages = 0;
@@ -67,7 +78,7 @@
         <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
         <div class="d-flex justify-content-between mb-3">
         <%
-        if (userId == null) {
+        if (userId == null || userType.equals("user")) {
         	%>
         	<a href="changeLocation.jsp" class="btn btn-outline-secondary">상권 변경</a>
         	<%
