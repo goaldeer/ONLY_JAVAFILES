@@ -1,23 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="beans.PostBean" %>
+<%@ page import="beans.UserBean" %>
 <%@ page import="dao.PostDAO" %>
+<%@ page import="dao.UserDAO" %>
 <%
     String userId = (String) session.getAttribute("userId");
-    if (userId == null) {
-        userId = "-1";
-    }
 
     int currentPage = 1; // 변수 이름을 변경
     int pageSize = 15;
-    int totalPosts = PostDAO.getPostCount();
-    int totalPages = (int) Math.ceil(totalPosts / (double) pageSize);
-    String pageStr = request.getParameter("page");
-    if (pageStr != null) {
-        currentPage = Integer.parseInt(pageStr);
-    }
+    int totalPages = 0;
+    
+    String userLocation = "국립부경대학교 대연캠퍼스";
+    
+    if (session.getAttribute("userLocation") == null) {
+        
+    	int totalPosts = PostDAO.getPostCountWithLocation(userLocation);
+        totalPages = (int) Math.ceil(totalPosts / (double) pageSize);
+        String pageStr = request.getParameter("page");
+        if (pageStr != null) {
+            currentPage = Integer.parseInt(pageStr);
+        }
 
-    List<PostBean> posts = PostDAO.getPostsByPage(currentPage, pageSize);
+    } else if (userId != null) {
+    	
+    	try {
+    		UserBean user = UserDAO.getUserById(userId);
+            userLocation = user.getUserLocation();
+    	} catch (Exception e) {}
+        
+    	int totalPosts = PostDAO.getPostCountWithLocation(userLocation);
+        totalPages = (int) Math.ceil(totalPosts / (double) pageSize);
+        String pageStr = request.getParameter("page");
+        if (pageStr != null) {
+            currentPage = Integer.parseInt(pageStr);
+        }
+
+        
+    } /*else {
+    	int totalPosts = PostDAO.getPostCount();
+	    int totalPages = (int) Math.ceil(totalPosts / (double) pageSize);
+	    String pageStr = request.getParameter("page");
+	    if (pageStr != null) {
+	        currentPage = Integer.parseInt(pageStr);
+	    }
+
+	    List<PostBean> posts = PostDAO.getPostsByPage(currentPage, pageSize);
+    }*/
+    
+    List<PostBean> posts = PostDAO.getPostsByPageWithLocation(currentPage, pageSize, userLocation);
 %>
 <!DOCTYPE html>
 <html>
@@ -30,14 +61,24 @@
 <body>
     <div class="container">
         <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
-        <div class="text-right mb-3">
-            <% if(userId.equals("-1")) { %>
+        <div class="d-flex justify-content-between mb-3">
+        <%
+        if (userId == null) {
+        	%>
+        	<a href="changeLocation.jsp" class="btn btn-outline-secondary">상권 변경</a>
+        	<%
+        }
+        %>
+        <div>현재 상권 : <%= userLocation %></div>
+        <div>
+            <% if(userId == null) { %>
             <a href="login.jsp" class="btn btn-outline-primary">로그인</a>
             <% } else { %>
             <a href="profile.jsp" class="btn btn-outline-primary">내 프로필</a>
             <a href="logout.jsp" class="btn btn-outline-danger">로그아웃</a>
             <% } %>
         </div>
+    </div>
         
         <div class="card">
             <div class="card-header">
@@ -104,7 +145,7 @@
         </nav>
 
         <div class="text-right mt-3">
-            <% if(!userId.equals("-1")) { %>
+            <% if(userId != null) { %>
             <a href="doPosting.jsp" class="btn btn-outline-primary">게시글 작성</a>
             <% } %>
         </div>

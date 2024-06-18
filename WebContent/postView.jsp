@@ -60,6 +60,7 @@
                     </tr>
                     <tr>
                         <td colspan="4">
+                        <br>
                             <%
                             if (post.getPostPhoto() != null) {
                             %>
@@ -68,6 +69,7 @@
                             }
                             %>
                             <%= post.getPostContent().replaceAll("\n", "<br/>") %>
+                        <br>
                         </td>
                     </tr>
                     <%

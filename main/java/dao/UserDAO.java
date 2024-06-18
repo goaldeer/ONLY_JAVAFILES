@@ -57,7 +57,6 @@ public class UserDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        UserBean user = null;
         try {
             conn = DatabaseConnection.getConnection();
             String sql = "UPDATE users SET userAddress = ?, userLocation = ? WHERE userId = ?";

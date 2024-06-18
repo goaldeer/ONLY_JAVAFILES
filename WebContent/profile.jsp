@@ -32,14 +32,20 @@
 <body>
     <div class="container">
     <h1><a href="main.jsp" style="text-decoration: none; color: inherit;">쩝쩝박사</a></h1>
-        <h2>나의 프로필</h2><br>
+        <h2><%= user.getUserName() %>의 프로필</h2><br>
         <div class="profile-info">
             <p>유저 이름 : <%= user.getUserName() %></p>
             <% if(user.getUserType().equals("owner")) { %>
             <p>주소 : <%= address %></p>
             <div class="location-row">
                     <p><span class="label">상권:</span> <%= user.getUserLocation() %></p>
-                    <a href="changeLocation.jsp" class="btn btn-primary">상권 변경</a>
+                    <%
+                   	if (session.getAttribute("userId") == userId) {
+                   		%>
+                   		<a href="changeLocation.jsp" class="btn btn-primary">상권 변경</a>
+                   		<%
+                   	}
+                    %>
             </div><br><br>
                 
 	            <div id="map" style="width:100%;height:400px;"></div><br>
@@ -106,7 +112,15 @@
                     <th>제목</th>
                     <th width="15%">작성자</th>
                     <th width="13%">작성일</th>
-                    <th width="10%">삭제</th>
+                    <th width="10%">
+                    
+                    <%
+                    	if (session.getAttribute("userId") == userId) {
+                    		%>삭제<%
+                    	}
+                    %>
+                    
+                    </th>
                 </tr>
                 <%
                 if (posts != null) {
@@ -119,10 +133,16 @@
                         <td onclick="location.href='profile.jsp?userId=<%= post.getPostUser() %>'" style="cursor:pointer;"><%= post.getPostUser() %></td>
                         <td><%= post.getPostTime() %></td>
                         <td>
-                            <form action="deletePost.jsp" method="post">
-                                <input type="hidden" name="postId" value="<%= post.getPostId() %>" />
-                                <button type="submit" class="btn btn-danger btn-sm">삭제</button>
-                            </form>
+                            <% 
+                            	if (session.getAttribute("userId") == userId) {
+                            		%>
+                            		<form action="deletePost.jsp" method="post">
+                                		<input type="hidden" name="postId" value="<%= post.getPostId() %>" />
+                                		<button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                            		</form>
+                            		<%
+                            	}
+                            %>
                         </td>
                     </tr>
                 <%
@@ -134,9 +154,15 @@
             </table>
         </fieldset>
         
-        <div class="text-right">
+        <% 
+        	if (session.getAttribute("userId") == userId) {
+        		%>
+        		<div class="text-right">
                 <a href="deleteUser.jsp" class="btn btn-outline-danger" onclick="confirmDeletion(event)">계정 삭제</a>
-        </div>
+        		</div>
+        		<% 
+        	}
+        %>
     </div>
 </body>
 </html>

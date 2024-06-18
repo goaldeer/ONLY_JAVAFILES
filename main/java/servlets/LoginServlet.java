@@ -5,6 +5,9 @@ import dao.UserDAO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+
+import beans.UserBean;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -14,13 +17,21 @@ public class LoginServlet extends HttpServlet {
     	request.setCharacterEncoding("UTF-8");
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
-
+        UserBean user = null;
+		try {
+			user = UserDAO.getUserById(userId);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        String userLocation = user.getUserLocation();
+        
         try {
-        	System.out.println(userId + " " + userPassword);
         	
             if (UserDAO.validateUser(userId, userPassword)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", userId);
+                session.setAttribute("userLocation", userLocation);
                 response.sendRedirect("main.jsp");
             } else {
                 response.sendRedirect("login.jsp?error=1");
